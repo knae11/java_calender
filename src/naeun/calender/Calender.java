@@ -2,7 +2,7 @@ package naeun.calender;
 
 public class Calender {
 	public static void main(String[] args) {
-		System.out.println("ÀÏ  ¿ù  È­  ¼ö  ¸ñ  ±İ  Åä\r\n"
+		System.out.println("ì›”  í™”  ìˆ˜  ëª©  ê¸ˆ  í†   ì¼\r\n"
 				+ "--------------------\r\n"
 				+ " 1  2  3  4  5  6  7\r\n"
 				+ " 8  9 10 11 12 13 14\r\n"
