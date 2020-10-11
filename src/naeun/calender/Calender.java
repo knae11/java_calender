@@ -16,14 +16,19 @@ public class Calender {
 	}
 
 	public static void main(String[] args) {
-
+		String PROMPT = "cal> ";
 		Scanner scanner = new Scanner(System.in);
 		Calender cal = new Calender();
-		System.out.println("몇번 반복할래요?");
-		int times = scanner.nextInt();
-		for (int i = 0; i < times; i++) {
+		while(true) {
 			System.out.println("달을 입력하세요");
+			System.out.print(PROMPT);
 			int month = scanner.nextInt();
+			if(month <1 ) {
+				break;
+			}
+			if(month>12) {
+				continue;
+			}
 			System.out.printf("%d의 마지막날은 %d입니다.\n", month, cal.maxDaysOfMonth(month));
 
 		}
