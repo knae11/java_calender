@@ -21,13 +21,15 @@ public class Calender {
 		Calender cal = new Calender();
 		System.out.println("몇번 반복할래요?");
 		int times = scanner.nextInt();
-		for (int i =0; i<times; i++) {
+		for (int i = 0; i < times; i++) {
 			System.out.println("달을 입력하세요");
 			int month = scanner.nextInt();
 			System.out.printf("%d의 마지막날은 %d입니다.\n", month, cal.maxDaysOfMonth(month));
-			
+
 		}
-		
+
+		System.out.println("끝");
+
 		scanner.close();
 
 	}
