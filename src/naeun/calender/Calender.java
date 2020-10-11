@@ -2,9 +2,9 @@ package naeun.calender;
 
 public class Calender {
 
-	private static final int[] MAX_DAYS = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-	private static final int[] LEAP_MAX_DAYS = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-	private static final String[] WEEKDAYS = { "SU", "MO", "TU", "WE", "TH", "FR", "SA" };
+	private static final int[] MAX_DAYS = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+	private static final int[] LEAP_MAX_DAYS = {0,  31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+	//private static final String[] WEEKDAYS = { "SU", "MO", "TU", "WE", "TH", "FR", "SA" };
 
 	public boolean isLeapYear(int year) {
 		if (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) {
@@ -16,12 +16,17 @@ public class Calender {
 
 	public int maxDaysOfMonth(int year, int month) {
 		if (isLeapYear(year)) {
-			return LEAP_MAX_DAYS[month - 1];
+			return LEAP_MAX_DAYS[month];
 		}
-		return MAX_DAYS[month - 1];
+		return MAX_DAYS[month];
 	}
 
-	public void printCalender(int year, int month, int weekday) {
+	public void printCalender(int year, int month) {
+
+//		for (int i = 1; i < month; i++) {
+//			day += maxDaysOfMonth(year, i);
+//		}
+		int weekday = getWeekDay(year, month, 1);
 		System.out.printf("   <<%4d년%3d월>>\n", year, month);
 		System.out.println(" SU MO TU WE TH FR SA\r\n" + "----------------------");
 		// print blank space
@@ -31,7 +36,7 @@ public class Calender {
 
 		int maxDay = maxDaysOfMonth(year, month);
 		int count = 7 - weekday;
-		int delim = count<7? count : 0;
+		int delim = count < 7 ? count : 0;
 
 		// print first line
 		for (int i = 1; i <= count; i++) {
@@ -49,4 +54,27 @@ public class Calender {
 		System.out.println();
 	}
 
+	private int getWeekDay(int year, int month, int day) {
+		// 기준날짜의 요일 얻어냄
+		int syear = 1970;
+		final int STANDARD_WEEKDAY = 3; // 1970. 1. 1 : Thursday
+
+		int count = 0;
+
+		for (int i = syear; i < year; i++) {
+			int delta = isLeapYear(i) ? 366 : 365;
+			count += delta;
+		}
+		//System.out.println(count);
+		for ( int i =0; i<month; i++) {
+			int delta = maxDaysOfMonth(year,i);
+			count += delta;
+			
+		}
+
+		count += day;
+		int weekday =( count+STANDARD_WEEKDAY) %7;
+		return weekday;
+	}
+	
 }
