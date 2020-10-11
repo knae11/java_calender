@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Calender {
 
-	private static final int[] MAX_DAYS = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+	private static final int[] MAX_DAYS = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
 	public int maxDaysOfMonth(int month) {
 		return MAX_DAYS[month - 1];
@@ -19,10 +19,15 @@ public class Calender {
 
 		Scanner scanner = new Scanner(System.in);
 		Calender cal = new Calender();
-
-		System.out.println("달을 입력하세요");
-		int month = scanner.nextInt();
-		System.out.printf("%d의 마지막날은 %d입니다.", month, cal.maxDaysOfMonth(month));
+		System.out.println("몇번 반복할래요?");
+		int times = scanner.nextInt();
+		for (int i =0; i<times; i++) {
+			System.out.println("달을 입력하세요");
+			int month = scanner.nextInt();
+			System.out.printf("%d의 마지막날은 %d입니다.\n", month, cal.maxDaysOfMonth(month));
+			
+		}
+		
 		scanner.close();
 
 	}
