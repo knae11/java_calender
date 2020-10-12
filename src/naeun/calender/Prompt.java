@@ -96,15 +96,13 @@ public class Prompt {
 	private void cmdSearch(Scanner s, Calender c) {
 		System.out.println("[일정검색] 날짜를 입력해 주세요 (yyyy-mm-dd)");
 		String date = s.next();
-		String plan = "";
-		try {
-			plan = c.searchPlan(date);
-		} catch (ParseException e) {
-			e.printStackTrace();
-			System.err.println("일정검색중 오류");
+		PlanItem plan;
+		plan = c.searchPlan(date);
+		if (plan != null) {
+			System.out.println(plan.detail);
+		} else {
+			System.out.println("일정이 없습니다.");
 		}
-		System.out.println(plan);
-
 	}
 
 	private void cmdRegister(Scanner s, Calender c) throws ParseException {
@@ -119,6 +117,7 @@ public class Prompt {
 				break;
 			}
 		}
+		text = text.replace(";", "");
 		c.registerPlan(date, text);
 	}
 

@@ -1,36 +1,68 @@
 package naeun.calender;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class Calender {
 
 	private static final int[] MAX_DAYS = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 	private static final int[] LEAP_MAX_DAYS = {0,  31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+	private static final String SAVE_FILE = "calender.dat";
 	
-	private HashMap <Date, String> planMap;
+	private HashMap <Date, PlanItem> planMap;
 	
 	public Calender() {
-		planMap = new HashMap<Date, String>();
+		planMap = new HashMap<Date, PlanItem>();
+		File f = new File(SAVE_FILE);
+		if (!f.exists()) {
+			return;
+		}
+		try {
+			Scanner s = new Scanner(f);
+			while(s.hasNext()) {
+				String line = s.nextLine();
+				String[] words = line.split(",");
+				String date = words[0];
+				String detail = words[1].replaceAll("\"","");
+				System.out.println(date+ ":" + detail);
+				PlanItem p = new PlanItem(date, detail);
+				planMap.put(p.getDate(), p);
+			}
+			s.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	/*
 	 * @param  date ex : "2017-06-20"
 	 * */
-	public void registerPlan(String strdate, String plan) throws ParseException {
-		Date date = new SimpleDateFormat("yyyy-mm-dd").parse(strdate);
-		planMap.put(date, plan);
+	public void registerPlan(String strDate, String plan){
+		PlanItem p = new PlanItem(strDate, plan);
+		planMap.put(p.getDate(), p);
+		
+		File f = new File(SAVE_FILE);
+		String item = p.saveString();
+		try {
+			FileWriter fw = new FileWriter(f, true);
+			fw.write(item);
+			fw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public String searchPlan(String strdate ) throws ParseException {
-		Date date = new SimpleDateFormat("yyyy-mm-dd").parse(strdate);
-		String plan = planMap.get(date); 
-		return plan;
-				
-
-		
+	public PlanItem searchPlan(String strDate ) {
+		Date date = PlanItem.getDatefromString(strDate);
+		return planMap.get(date); 
 	}
 	public boolean isLeapYear(int year) {
 		if (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) {
