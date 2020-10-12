@@ -1,11 +1,37 @@
 package naeun.calender;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+
 public class Calender {
 
 	private static final int[] MAX_DAYS = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 	private static final int[] LEAP_MAX_DAYS = {0,  31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-	//private static final String[] WEEKDAYS = { "SU", "MO", "TU", "WE", "TH", "FR", "SA" };
+	
+	private HashMap <Date, String> planMap;
+	
+	public Calender() {
+		planMap = new HashMap<Date, String>();
+	}
+	
+	/*
+	 * @param  date ex : "2017-06-20"
+	 * */
+	public void registerPlan(String strdate, String plan) throws ParseException {
+		Date date = new SimpleDateFormat("yyyy-mm-dd").parse(strdate);
+		planMap.put(date, plan);
+	}
+	
+	public String searchPlan(String strdate ) throws ParseException {
+		Date date = new SimpleDateFormat("yyyy-mm-dd").parse(strdate);
+		String plan = planMap.get(date); 
+		return plan;
+				
 
+		
+	}
 	public boolean isLeapYear(int year) {
 		if (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) {
 			return true;
@@ -57,7 +83,7 @@ public class Calender {
 	private int getWeekDay(int year, int month, int day) {
 		// 기준날짜의 요일 얻어냄
 		int syear = 1970;
-		final int STANDARD_WEEKDAY = 3; // 1970. 1. 1 : Thursday
+		final int STANDARD_WEEKDAY = 4; // 1970. 1. 1 : Thursday
 
 		int count = 0;
 
@@ -72,9 +98,14 @@ public class Calender {
 			
 		}
 
-		count += day;
+		count += day-1;
 		int weekday =( count+STANDARD_WEEKDAY) %7;
 		return weekday;
+	}
+	public static void main(String[] args) throws ParseException {
+		Calender cal = new Calender();
+		cal.registerPlan("2017-06-23", "meal");
+		System.out.println(cal.searchPlan("2017-06-23").equals("meal"));
 	}
 	
 }
